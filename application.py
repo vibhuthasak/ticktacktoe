@@ -9,9 +9,9 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+
 @app.route("/")
 def index():
-
     if "board" not in session:
         session["board"] = [[None, None, None], [None, None, None], [None, None, None]]
         session["turn"] = "X"
@@ -31,7 +31,13 @@ def play(row, col):
 
     return redirect(url_for("index"))
 
+@app.route("/newgame")
+def newgame():
+    session["board"] = [[None, None, None], [None, None, None], [None, None, None]]
+    session["turn"] = "X"
+    session["winner"] = None
     return redirect(url_for("index"))
+
 def isOver(board):
   # Row win
   for row in board:
