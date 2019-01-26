@@ -1,38 +1,55 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Tic Tac Toe</title>
-        <style>
-            table {
-                border-collapse: collapse;
-            }
-            td {
-                border: 1px solid black;
-                width: 150px;
-                height: 150px;
-                font-size: 30px;
-                text-align: center;
-            }
-            td > a {
-                font-size: 18px;
-            }
-        </style>
-    </head>
-    <body>
-        <table>
-            {% for i in range(3) %}
-                <tr>
-                    {% for j in range(3) %}
-                        <td>
-                            {% if game[i][j] %}
-                                {{ game[i][j] }}
-                            {% else %}
-                                <a href="{{ url_for('play', row=i, col=j) }}">Play {{ turn }} here.</a>
-                            {% endif %}
-                        </td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </table>
-    </body>
+
+<head>
+  <title>Tic Tac Toe</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      border: 1px solid black;
+      width: 150px;
+      height: 150px;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    td>a {
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  {% if winner == None %}
+    <h3>Player {{turn}} turn</h3>
+  {%else%}
+    <h3 style='color: red'>Game Over</h3>
+    <h3>Winner is {{winner}}</h3>
+  {% endif %}
+
+  <table>
+    {% for i in range(3) %}
+    <tr>
+      {% for j in range(3) %}
+      <td>
+        {% if game[i][j] %}
+        {{ game[i][j] }}
+        {% else %}
+          {% if winner != None %}
+          {% else %}
+            <a href="{{ url_for('play', row=i, col=j) }}">Play {{ turn }} here.</a>
+          {% endif %}
+        {% endif %}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+  <br>
+  <a href="{{ url_for('newgame') }}">New Game</a>
+</body>
+
 </html>
